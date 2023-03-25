@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { TopNav } from "../components/TopNav";
 import { Navbar } from "../components/Navbar";
 
-export const PageContainer = ({ children, navbar }) => {
+export const PageContainer = ({ children, topnav, navbar }) => {
   return (
     <PageContainerBox>
+      {topnav === false ? null : <TopNav />}
       {children}
       {navbar === false ? null : <Navbar />}
     </PageContainerBox>
