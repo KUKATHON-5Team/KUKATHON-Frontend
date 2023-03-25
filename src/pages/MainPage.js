@@ -57,7 +57,7 @@ export const MainPage = () => {
   useEffect(() => {}, []);
 
   return (
-    <PageContainer navbar>
+    <PageContainer topnav>
       <MainPageContainer>
         <div className="test">내일(naeil) 메인페이지</div>
         <button
