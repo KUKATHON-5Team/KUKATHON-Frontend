@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { PageContainer } from "../container/PageContainer";
 import { AiOutlineHeart } from "react-icons/ai";
+import { useState } from "react";
+import { JobScrapModal } from "../components/JobScrapModal";
 
 export const JobListPage = () => {
   const jobcount = 42;
@@ -14,6 +16,8 @@ export const JobListPage = () => {
     { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
     { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
   ];
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <PageContainer topnav>
@@ -48,7 +52,11 @@ export const JobListPage = () => {
                 </div>
                 <LikeBtnContainer>
                   <div>3시간전</div>
-                  <button>
+                  <button
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}
+                  >
                     <AiOutlineHeart />
                   </button>
                 </LikeBtnContainer>
@@ -56,6 +64,7 @@ export const JobListPage = () => {
             );
           })}
         </JobList>
+        <JobScrapModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </JobListPageContainer>
     </PageContainer>
   );
