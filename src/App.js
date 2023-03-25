@@ -1,7 +1,16 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MainPage } from "./pages/MainPage";
+
 function App() {
-  return <div className="App">
-    <div>큐커톤 5지조</div>
-  </div>;
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
