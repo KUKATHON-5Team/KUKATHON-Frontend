@@ -4,6 +4,7 @@ import GlobalStyle from "./assets/styles/Globalstyle";
 import theme from "./assets/styles/theme";
 import { MainPage } from "./pages/MainPage";
 import { LogIn } from "./pages/LogIn";
+import { JobPage } from "./pages/JobPage";
 import { useEffect } from "react";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LogIn />} />
             <Route path="/main" element={<MainPage />} />
+            <Route path="/job" element={<JobPage />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
