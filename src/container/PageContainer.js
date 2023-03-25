@@ -5,9 +5,9 @@ import { Navbar } from "../components/Navbar";
 export const PageContainer = ({ children, topnav, navbar }) => {
   return (
     <PageContainerBox>
-      {topnav === false ? null : <TopNav />}
+      {topnav ? <TopNav /> : null}
       {children}
-      {navbar === false ? null : <Navbar />}
+      {navbar ? <Navbar /> : null}
     </PageContainerBox>
   );
 };
