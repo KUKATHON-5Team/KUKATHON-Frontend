@@ -3,11 +3,8 @@ import styled from "styled-components";
 import { HiSearch } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 import { AiFillHeart } from "react-icons/ai";
-import { ScrapModal } from "./ScrapModal";
 
 export const TopNav = () => {
-  const [isOpenScrapmodal, setIsOpenScrapmodal] = useState(false);
-
   return (
     <TopNavContainer>
       <MainLogo className="logo">내일</MainLogo>
@@ -15,18 +12,12 @@ export const TopNav = () => {
         <input type="text"></input>
         <HiSearch className="search" />
       </SearchbarContainer>
-      <NavBtn
-        className="like"
-        onClick={() => {
-          setIsOpenScrapmodal(!isOpenScrapmodal);
-        }}
-      >
+      <NavBtn className="like">
         <AiFillHeart />
       </NavBtn>
       <NavBtn className="mypage">
         <FaUser />
       </NavBtn>
-      <ScrapModal isOpen={isOpenScrapmodal} setIsOpen={setIsOpenScrapmodal} />
     </TopNavContainer>
   );
 };
