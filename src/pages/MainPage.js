@@ -32,15 +32,9 @@ export const MainPage = () => {
   }, []);
 
   return (
-    <PageContainer>
+    <PageContainer navbar>
       <MainPageContainer>
-        <Header>Header</Header>
-        <div className="main">메인페이지</div>
-        <div className="name">큐커톤</div>
-        <div className="test">
-          <div>username: {user.username}</div>
-          <div>password: {user.password}</div>
-        </div>
+        <div className="test">내일(naeil) 메인페이지</div>
       </MainPageContainer>
     </PageContainer>
   );
@@ -48,24 +42,14 @@ export const MainPage = () => {
 
 const MainPageContainer = styled.div`
   color: ${({ theme }) => theme.colors.mainColor};
-  font-size: 20;
-  div.main {
-    margin-top: 20px;
-  }
-  div.name {
-    color: red;
-  }
   div.test {
+    margin-top: 20px;
     color: black;
+    font-size: 20px;
   }
   position: relative;
   height: 100%;
-`;
-
-const Header = styled.div`
-  border: 1px solid black;
-  box-sizing: border-box;
-  width: 100%;
-  position: absolute;
-  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
