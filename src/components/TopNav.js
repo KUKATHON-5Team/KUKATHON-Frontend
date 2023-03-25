@@ -9,38 +9,44 @@ export const TopNav = () => {
   const [isOpenScrapmodal, setIsOpenScrapmodal] = useState(false);
 
   return (
-    <>
-      <TopNavContainer>
-        <MainLogo className="logo">내일</MainLogo>
-        <SearchbarContainer>
-          <input type="text"></input>
-          <HiSearch className="search" />
-        </SearchbarContainer>
-        <NavBtn
-          className="like"
-          onClick={() => {
-            setIsOpenScrapmodal(!isOpenScrapmodal);
-          }}
-        >
-          <AiFillHeart />
-        </NavBtn>
-        <NavBtn className="mypage">
-          <FaUser />
-        </NavBtn>
-      </TopNavContainer>
+    <TopNavContainer>
+      <MainLogo className="logo">내일</MainLogo>
+      <SearchbarContainer>
+        <input type="text"></input>
+        <HiSearch className="search" />
+      </SearchbarContainer>
+      <NavBtn
+        className="like"
+        onClick={() => {
+          setIsOpenScrapmodal(!isOpenScrapmodal);
+        }}
+      >
+        <AiFillHeart />
+      </NavBtn>
+      <NavBtn className="mypage">
+        <FaUser />
+      </NavBtn>
       <ScrapModal isOpen={isOpenScrapmodal} setIsOpen={setIsOpenScrapmodal} />
-    </>
+    </TopNavContainer>
   );
 };
 
 const TopNavContainer = styled.div`
   box-sizing: border-box;
-  width: 100%;
+  width: 100vw;
+  max-width: 420px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  background-color: white;
+  position: fixed;
+  border: 1px solid black;
+  border-bottom: none;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1000;
 `;
 
 const MainLogo = styled.div`
