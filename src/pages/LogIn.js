@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "../api/axios";
-import { PageContainer } from "../container/PageContainer";
+import { LoginContainer } from "../container/LoginContainer";
 import { useState } from 'react';
 
 export const LogIn = () => {
@@ -46,7 +46,7 @@ export const LogIn = () => {
     };
 
     return (
-        <PageContainer>
+        <LoginContainer>
             <LogInContainer>
                 <Title>LogIn</Title>
                 <Login>
@@ -63,7 +63,7 @@ export const LogIn = () => {
                     <button type="submit" onClick={onSubmitHandler}>로그인</button>
                 </LoginButton>
             </LogInContainer>
-        </PageContainer>
+        </LoginContainer>
     );
 };
 
