@@ -18,30 +18,25 @@ export const JobDetailPage = () => {
   });
 
   const searchAddress = async (address) => {
-    try {
-      const response = await none_axios.get(
-        "https://dapi.kakao.com/v2/local/search/address.json",
-        {
-          params: {
-            query: address,
-          },
-          headers: {
-            Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_RESTKEY}`,
-          },
-        }
-      );
-      const data = response.data;
-      console.log(data);
-      let ax = data.document?.length > 0 ? data.documents[0].x : 37.49555;
-      let ay = data.document?.length > 0 ? data.documents[0].y : 127.038726;
-      setAddress({ x: ax, y: ay });
-    } catch (error) {
-      console.error("ERROR: ", error);
-      setAddress({
-        x: 37.49555,
-        y: 127.038726,
+    none_axios
+      .get("https://dapi.kakao.com/v2/local/search/address.json", {
+        params: {
+          query: address,
+        },
+        headers: {
+          Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_RESTKEY}`,
+        },
+      })
+      .then((response) => {
+        setAddress({ x: 37.49555, y: 127.038726 });
+      })
+      .catch((err) => {
+        console.error("ERROR: ", err);
+        setAddress({
+          x: 37.49555,
+          y: 127.038726,
+        });
       });
-    }
   };
 
   const getJobInfo = async () => {
@@ -56,6 +51,8 @@ export const JobDetailPage = () => {
   };
 
   useEffect(() => {
+    getJobInfo();
+
     const container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
     const options = {
       //지도를 생성할 때 필요한 기본 옵션
@@ -64,8 +61,6 @@ export const JobDetailPage = () => {
     };
 
     const map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
-    getJobInfo();
   }, []);
 
   const handleClickCopyBtn = () => {
