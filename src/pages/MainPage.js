@@ -1,12 +1,16 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "../api/axios";
 import { PageContainer } from "../container/PageContainer";
 
 export const MainPage = () => {
+  const [user, setUser] = useState({});
+
   const getUserInfo = async () => {
     try {
-      const response = await axios.get("/user");
+      const response = await axios.get("/test");
       const data = response.data;
+      setUser(data);
     } catch (error) {
       console.error("ERROR: ", error);
     }
@@ -23,12 +27,20 @@ export const MainPage = () => {
       .catch((err) => console.error("ERROR: ", err));
   };
 
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   return (
     <PageContainer>
       <MainPageContainer>
         <Header>Header</Header>
         <div className="main">메인페이지</div>
         <div className="name">큐커톤</div>
+        <div className="test">
+          <div>username: {user.username}</div>
+          <div>password: {user.password}</div>
+        </div>
       </MainPageContainer>
     </PageContainer>
   );
@@ -42,6 +54,9 @@ const MainPageContainer = styled.div`
   }
   div.name {
     color: red;
+  }
+  div.test {
+    color: black;
   }
   position: relative;
   height: 100%;
