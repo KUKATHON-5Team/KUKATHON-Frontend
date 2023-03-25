@@ -2,6 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 body {
+    font-family: RobotoInCjk, 'Noto Sans KR', 'Apple SD Gothic Neo',
+      'Nanum Gothic', 'Malgun Gothic', sans-serif;
     display: flex;
     justify-content: center;
     margin: 0;
