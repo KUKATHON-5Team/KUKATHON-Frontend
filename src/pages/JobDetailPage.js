@@ -1,19 +1,71 @@
 import styled from "styled-components";
 import { useEffect } from "react";
+import { useParams } from "react-router";
 import { PageContainer } from "../container/PageContainer";
+import { useState } from "react";
+import axios from "../api/axios";
+import none_axios from "axios";
 
 const { kakao } = window;
 
 export const JobDetailPage = () => {
+  const { jobId } = useParams();
+
+  const [job, setJob] = useState({});
+  const [address, setAddress] = useState({
+    x: 37.49555,
+    y: 127.038726,
+  });
+
+  const searchAddress = async (address) => {
+    try {
+      const response = await none_axios.get(
+        "https://dapi.kakao.com/v2/local/search/address.json",
+        {
+          params: {
+            query: address,
+          },
+          headers: {
+            Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_RESTKEY}`,
+          },
+        }
+      );
+      const data = response.data;
+      console.log(data);
+      let ax = data.document?.length > 0 ? data.documents[0].x : 37.49555;
+      let ay = data.document?.length > 0 ? data.documents[0].y : 127.038726;
+      setAddress({ x: ax, y: ay });
+    } catch (error) {
+      console.error("ERROR: ", error);
+      setAddress({
+        x: 37.49555,
+        y: 127.038726,
+      });
+    }
+  };
+
+  const getJobInfo = async () => {
+    try {
+      const response = await axios.get(`/job/${jobId}`);
+      const data = response.data;
+      setJob(data);
+      searchAddress(data.detailAddress);
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
+
   useEffect(() => {
     const container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
     const options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(37.49555, 127.038726), //지도의 중심좌표.
+      center: new kakao.maps.LatLng(address.x, address.y), //지도의 중심좌표.
       level: 8, //지도의 레벨(확대, 축소 정도)
     };
 
     const map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+    getJobInfo();
   }, []);
 
   const handleClickCopyBtn = () => {
@@ -24,42 +76,46 @@ export const JobDetailPage = () => {
     <PageContainer job>
       <JobDetailPageContainer>
         <DetailHeader>
-          <div className="title">동대문 엽기 떡볶이 염창동점</div>
+          <div className="title">{job.title}</div>
           <div className="info">
             <div className="company">(주)핫시즈너</div>
-            <div className="date">모집마감 9일전</div>
+            <div className="date">
+              모집마감 {Math.floor(Math.random() * 10)}일전
+            </div>
           </div>
-          <div className="type">식당</div>
+          <div className="type">{job.category}</div>
         </DetailHeader>
         <DetailTime>
           <div className="title">모집 및 근무 조건</div>
           <div className="boxes">
             <div className="timebox">
               <div className="type">시급</div>
-              <div className="value purple">12,000</div>
+              <div className="value purple">{job.hourWage}</div>
             </div>
             <div className="timebox">
               <div className="type">근무 요일</div>
-              <div className="value">월~금</div>
+              <div className="value">{job.workTimeDto?.week}</div>
             </div>
             <div className="timebox">
               <div className="type">근무 시간</div>
-              <div className="value">9:00 ~ 18:00</div>
+              <div className="value">
+                {job.workTimeDto?.startTime} ~ {job.workTimeDto?.endTime}
+              </div>
             </div>
             <div className="timebox">
               <div className="type">근무 기간</div>
-              <div className="value">3년 이상</div>
+              <div className="value">{job.workPeriodType}</div>
             </div>
           </div>
         </DetailTime>
         <DetailInfo>
           <div className="infobox">
             <div className="type">모집인원</div>
-            <div className="value">15명</div>
+            <div className="value">{job.recruitCount}</div>
           </div>
           <div className="infobox">
             <div className="type">성별</div>
-            <div className="value">성별무관</div>
+            <div className="value">{job.gender}</div>
           </div>
           <div className="infobox">
             <div className="type">연령</div>
@@ -69,7 +125,7 @@ export const JobDetailPage = () => {
         <MabBox>
           <div className="mapinfo">
             <div className="title">근무지 정보</div>
-            <div className="address">서울 강서구 염창대로23길 55 3층</div>
+            <div className="address">{job.detailAddress}</div>
             <div className="find">길찾기</div>
           </div>
           <div id="map"></div>
@@ -115,7 +171,7 @@ const DetailHeader = styled.div`
     right: 30px;
     top: 20px;
     border: 1px solid #d6d6d6;
-    width: 60px;
+    padding: 0 5px;
     height: 30px;
     text-align: center;
     line-height: 30px;
