@@ -1,17 +1,12 @@
-import { useState } from "react";
 import styled from "styled-components";
-import { HiSearch } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 import { AiFillHeart } from "react-icons/ai";
 
-export const TopNav = () => {
+export const JobNavbar = () => {
   return (
     <TopNavContainer>
       <MainLogo className="logo">내일</MainLogo>
-      <SearchbarContainer>
-        <input type="text"></input>
-        <HiSearch className="search" />
-      </SearchbarContainer>
+      <Title>채용정보</Title>
       <NavBtn className="like">
         <AiFillHeart />
       </NavBtn>
@@ -33,7 +28,7 @@ const TopNavContainer = styled.div`
   background-color: white;
   position: fixed;
   border: 1px solid black;
-  border-bottom: none;
+  border-bottom: 1px solid #d6d6d6;
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
@@ -45,28 +40,13 @@ const MainLogo = styled.div`
   left: 3%;
 `;
 
-const SearchbarContainer = styled.div`
+const Title = styled.div`
   position: relative;
-  input {
-    width: 210px;
-    height: 36px;
-    border: 1px solid #f5f5f5;
-    border-radius: 20px;
-    outline: none;
-    padding: 0 30px 0 15px;
-    @media screen and (max-width: 400px) {
-      width: 180px;
-    }
-  }
-  .search {
-    position: absolute;
-    right: 10px;
-    height: 36px;
-    &:hover {
-      cursor: pointer;
-    }
-    fill: #d9d9d9;
-  }
+  width: 200px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #7660d6;
+  text-align: center;
 `;
 
 const NavBtn = styled.button`

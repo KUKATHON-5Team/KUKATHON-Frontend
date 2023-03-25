@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { PageContainer } from "../container/PageContainer";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { JobScrapModal } from "../components/JobScrapModal";
 
 export const JobListPage = () => {
@@ -18,6 +19,12 @@ export const JobListPage = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleClickJob = (jobId) => {
+    navigate(`/job/${jobId}`);
+  };
 
   return (
     <PageContainer topnav>
@@ -36,7 +43,13 @@ export const JobListPage = () => {
         <JobList>
           {jobs?.map((el, idx) => {
             return (
-              <div key={idx} className="job">
+              <div
+                key={idx}
+                className="job"
+                onClick={() => {
+                  handleClickJob(idx);
+                }}
+              >
                 <div className="imgcontainer">
                   <div className="img">이미지</div>
                   <div className="address">서울시 강서구 염창동</div>
