@@ -13,6 +13,7 @@ import parking from "../assets/img/parking.png";
 import Union from "../assets/img/Union.png";
 import labor from "../assets/img/labor.png";
 import RegionModal from "../components/RegionModal";
+import { useNavigate } from 'react-router-dom';
 
 const cookies = new Cookies();
 
@@ -36,29 +37,35 @@ export const MainPage = () => {
     setRegionmodals({ ...regionmodals, [size]: !regionmodals.size });
   };
 
-  const [datas, setDatas] = useState({ job: [], home: [], time: [] });
-  const [isActive, setIsActive] = useState("");
+  const [jobs, setJobs] = useState({ job: [] });
+  const [homes, setHomes] = useState({ home: "" });
+  const [times, setTimes] = useState({ time: "" });
 
-  const onAdd = (e) => {
-    setIsActive((prev) => {
-      return e.target.id;
-    });
-  };
+  const [active, setActive] = useState(false);
+  const onApp = () => {
+    setActive(!active);
+  }
 
   const handleJobClick = (id) => {
-    setDatas({ ...datas, job: [...datas.job, id] });
+    if (id === "TOTAL") {
+      return
+    }
+    else {
+      setJobs({ ...jobs, job: [...jobs.job, id] });
+    }
   };
 
   const handleHomeClick = (id) => {
-    setDatas({ ...datas, home: [...datas.home, id] });
+    setHomes({ ...homes, home: id });
   };
 
   const handleTimeClick = (id) => {
-    setDatas({ ...datas, time: [...datas.time, id] });
+    setTimes({ ...times, time: id });
   };
 
+  const navigate = useNavigate();
   const handlePrint = () => {
-    console.log(datas);
+    navigate('/joblist', { state: { regions, jobs, homes, times } });
   }
 
   const getUserInfo = async () => {
@@ -101,9 +108,7 @@ export const MainPage = () => {
       });
   };
 
-  useEffect(() => {}, []);
-
-  const jobs = [{ name: '전체', id: 'total', img: 'total' }]
+  useEffect(() => { }, []);
 
   return (
     <PageContainer topnav>
@@ -168,34 +173,34 @@ export const MainPage = () => {
         </div>
 
         <div className="selectJob1">
-          <div className={datas.job.includes('total') ? 'jobButton_on' : 'jobButton_off'} id="total" onClick={() => handleJobClick("total")}><img src={total} />전체</div>
-          <div className={datas.job.includes('clean') ? 'jobButton_on' : 'jobButton_off'} id="clean" onClick={() => handleJobClick("clean")}><img src={clean} />청소</div>
-          <div className={datas.job.includes('parking') ? 'jobButton_on' : 'jobButton_off'} id="parking" onClick={() => handleJobClick("parking")}><img src={parking} />경비/주차</div>
-          <div className={datas.job.includes('care') ? 'jobButton_on' : 'jobButton_off'} id="care" onClick={() => handleJobClick("care")}><img src={care} />돌봄/의료</div>
+          <div className={active ? 'jobButton_on' : 'jobButton_off'} id="TOTAL" onClick={() => { handleJobClick("TOTAL"), onApp() }}><img src={total} />전체</div>
+          <div className={jobs.job.includes('CLEANER') ? 'jobButton_on' : 'jobButton_off'} id="CLEANER" onClick={() => handleJobClick("CLEANER")}><img src={clean} />청소</div>
+          <div className={jobs.job.includes('SECURITY') ? 'jobButton_on' : 'jobButton_off'} id="SECURITY" onClick={() => handleJobClick("SECURITY")}><img src={parking} />경비/주차</div>
+          <div className={jobs.job.includes('MEDICAL') ? 'jobButton_on' : 'jobButton_off'} id="MEDICAL" onClick={() => handleJobClick("MEDICAL")}><img src={care} />돌봄/의료</div>
         </div>
         <div className="selectJob2">
-          <div className={datas.job.includes('mart') ? 'jobButton_on' : 'jobButton_off'} id="mart" onClick={() => handleJobClick("mart")}><img src={mart} />마트/편의점</div>
-          <div className={datas.job.includes('labor') ? 'jobButton_on' : 'jobButton_off'} id="labor" onClick={() => handleJobClick("labor")}><img src={labor} />단순노동</div>
-          <div className={datas.job.includes('Union') ? 'jobButton_on' : 'jobButton_off'} id="Union" onClick={() => handleJobClick("Union")}><img src={Union} />소일거리</div>
-          <div className={datas.job.includes('elses') ? 'jobButton_on' : 'jobButton_off'} id="elses" onClick={() => handleJobClick("elses")}><img src={elses} />기타</div>
+          <div className={jobs.job.includes('MART') ? 'jobButton_on' : 'jobButton_off'} id="MART" onClick={() => handleJobClick("MART")}><img src={mart} />마트/편의점</div>
+          <div className={jobs.job.includes('SIMPLEWORK') ? 'jobButton_on' : 'jobButton_off'} id="SIMPLEWORK" onClick={() => handleJobClick("SIMPLEWORK")}><img src={labor} />단순노동</div>
+          <div className={jobs.job.includes('MAKER') ? 'jobButton_on' : 'jobButton_off'} id="MAKER" onClick={() => handleJobClick("MAKER")}><img src={Union} />소일거리</div>
+          <div className={jobs.job.includes('ETC') ? 'jobButton_on' : 'jobButton_off'} id="ETC" onClick={() => handleJobClick("ETC")}><img src={elses} />기타</div>
         </div>
         <div className="border"></div>
         <div className="homeWork">
           <div className="homeWorkTitle">재택 가능 여부</div>
           <div className="homeWorkSelect">
-            <div className={datas.home.includes('yes') ? 'workcheck_on' : 'workcheck_off'} id="yes" onClick={() => handleHomeClick("yes")}>O</div>
-            <div className={datas.home.includes('no') ? 'workcheck_on' : 'workcheck_off'} id="no" onClick={() => handleHomeClick("no")}>X</div>
+            <div className={homes.home.includes("yes") ? 'workcheck_on' : 'workcheck_off'} id="yes" onClick={() => handleHomeClick("yes")}>O</div>
+            <div className={homes.home.includes("no") ? 'workcheck_on' : 'workcheck_off'} id="no" onClick={() => handleHomeClick("no")}>X</div>
           </div>
         </div>
         <div className="workTime">
           <div className="timeTitle">기간</div>
           <div className="timeSelect">
-            <div className={datas.time.includes('oneMonthOver') ? 'timeCheck_on' : 'timeCheck_off'} id="oneMonthOver" onClick={() => handleTimeClick("oneMonthOver")}>1개월 이상</div>
-            <div className={datas.time.includes('threeMonthOver') ? 'timeCheck_on' : 'timeCheck_off'} id="threeMonthOver" onClick={() => handleTimeClick("threeMonthOver")}>3개월 이상</div>
-            <div className={datas.time.includes('sixMonthOver') ? 'timeCheck_on' : 'timeCheck_off'} id="sixMonthOver" onClick={() => handleTimeClick("sixMonthOver")}>6개월 이상</div>
-            <div className={datas.time.includes('oneYearOver') ? 'timeCheck_on' : 'timeCheck_off'} id="oneYearOver" onClick={() => handleTimeClick("maroneYearOvert")}>1년 이상</div>
-            <div className={datas.time.includes('threeYearOver') ? 'timeCheck_on' : 'timeCheck_off'} id="threeYearOver" onClick={() => handleTimeClick("threeYearOver")}>3년 이상</div>
-            <div className={datas.time.includes('discuss') ? 'timeCheck_on' : 'timeCheck_off'} id="discuss" onClick={() => handleTimeClick("discuss")}>협의</div>
+            <div className={times.time.includes('MORETHAN1WEEK') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN1WEEK" onClick={() => handleTimeClick("MORETHAN1WEEK")}>1주 이상</div>
+            <div className={times.time.includes('MORETHAN1MONTH') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN1MONTH" onClick={() => handleTimeClick("MORETHAN1MONTH")}>1달 이상</div>
+            <div className={times.time.includes('MORETHAN3MONTH') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN3MONTH" onClick={() => handleTimeClick("MORETHAN3MONTH")}>3달 이상</div>
+            <div className={times.time.includes('MORETHAN6MONTH') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN6MONTH" onClick={() => handleTimeClick("MORETHAN6MONTH")}>6달 이상</div>
+            <div className={times.time.includes('MORETHAN1YEAR') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN1YEAR" onClick={() => handleTimeClick("MORETHAN1YEAR")}>1년 이상</div>
+            <div className={times.time.includes('MORETHAN3YEAR') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN3YEAR" onClick={() => handleTimeClick("MORETHAN3YEAR")}>3년 이상</div>
           </div>
         </div>
         <div className="selectButton">
