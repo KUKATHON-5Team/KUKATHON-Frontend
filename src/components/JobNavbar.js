@@ -1,11 +1,22 @@
 import styled from "styled-components";
 import { FaUser } from "react-icons/fa";
 import { AiFillHeart } from "react-icons/ai";
+import logo from "../assets/img/naeil_logo.png";
+import { useNavigate } from "react-router";
 
 export const JobNavbar = () => {
+  const navigate = useNavigate();
+
   return (
     <TopNavContainer>
-      <MainLogo className="logo">내일</MainLogo>
+      <MainLogo
+        className="logo"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <img src={logo} />
+      </MainLogo>
       <Title>채용정보</Title>
       <NavBtn className="like">
         <AiFillHeart />
@@ -37,7 +48,10 @@ const TopNavContainer = styled.div`
 
 const MainLogo = styled.div`
   position: absolute;
-  left: 3%;
+  left: 2%;
+  img {
+    width: 70px;
+  }
 `;
 
 const Title = styled.div`

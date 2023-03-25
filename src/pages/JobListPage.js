@@ -1,30 +1,47 @@
 import styled from "styled-components";
 import { PageContainer } from "../container/PageContainer";
 import { AiOutlineHeart } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { JobScrapModal } from "../components/JobScrapModal";
+import { useLocation } from "react-router-dom";
+import axios from "../api/axios";
 
 export const JobListPage = () => {
-  const jobcount = 42;
-  const jobs = [
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-    { title: "동대문 엽기 떡볶이", description: "음식 조리 및 주방보조" },
-  ];
+  const { state } = useLocation();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [res, setRes] = useState([]);
 
   const navigate = useNavigate();
-
   const handleClickJob = (jobId) => {
     navigate(`/job/${jobId}`);
   };
+
+  const setUserInfo = () => {
+    axios
+      .post("/job", {
+        region: {
+          si: state.regions.big,
+          gu: state.regions.middle,
+          dong: state.regions.small,
+        },
+        categories: state.jobs.job,
+        workInHome: `${state.homes.home === "yes" ? true : false}`,
+        workPeriodType: state.times.time,
+      })
+      .then((response) => {
+        setRes(response.data);
+      })
+      .catch((err) => console.error("ERROR: ", err));
+  };
+
+  const jobcount = res.listCount;
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setUserInfo();
+  }, []);
 
   return (
     <PageContainer topnav>
@@ -41,30 +58,39 @@ export const JobListPage = () => {
           </select>
         </JobInfo>
         <JobList>
-          {jobs?.map((el, idx) => {
+          {res.simpleJobList?.map((el, idx) => {
             return (
-              <div
-                key={idx}
-                className="job"
-                onClick={() => {
-                  handleClickJob(idx);
-                }}
-              >
-                <div className="imgcontainer">
-                  <div className="img">이미지</div>
-                  <div className="address">서울시 강서구 염창동</div>
+              <div key={idx} className="job">
+                <div
+                  className="imgcontainer"
+                  onClick={() => {
+                    handleClickJob(el.jobId);
+                  }}
+                >
+                  <div className="img">
+                    <img className="realImg" src={el.imageUrl} />
+                  </div>
+                  <div className="address">{el.region}</div>
                 </div>
-                <div className="info">
+                <div
+                  className="info"
+                  onClick={() => {
+                    handleClickJob(el.jobId);
+                  }}
+                >
                   <div className="company">(주) 핫시즈너</div>
                   <div className="title">{el.title}</div>
-                  <div className="time">월,수,금 | 09:00 ~ 17:00</div>
+                  <div className="time">
+                    {el.workTime.week} | {el.workTime.startTime} ~{" "}
+                    {el.workTime.endTime}
+                  </div>
                   <div className="description">{el.description}</div>
                   <div className="pay">
-                    <span>시급</span> 10,000
+                    <span>시급</span> {el.hourWage}
                   </div>
                 </div>
                 <LikeBtnContainer>
-                  <div>3시간전</div>
+                  <div>{el.uploadDateTime}시간전</div>
                   <button
                     onClick={() => {
                       setIsOpen(!isOpen);
@@ -150,12 +176,17 @@ const JobList = styled.div`
       border: 1px solid lightgray;
       margin-bottom: 5px;
     }
+    img.realImg {
+      width: 100px;
+      height: 100px;
+    }
     div.address {
-      font-size: 8px;
+      font-size: 10px;
       color: #797979;
       font-weight: 500;
       width: 100%;
       text-align: center;
+      word-break: keep-all;
     }
   }
   div.info {
@@ -209,6 +240,8 @@ const LikeBtnContainer = styled.div`
     border: none;
     svg {
       fill: #d9d9d9;
+      width: 15px;
+      height: 15px;
     }
     display: flex;
     justify-content: center;
