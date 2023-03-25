@@ -14,6 +14,7 @@ export const PageContainer = ({ children, topnav, navbar }) => {
 
 const PageContainerBox = styled.div`
   width: 100vw;
+  min-width: 360px;
   max-width: 420px;
   justify-content: center;
   height: calc(var(--vh, 1vh) * 100);

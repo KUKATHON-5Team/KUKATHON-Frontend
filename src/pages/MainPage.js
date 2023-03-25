@@ -64,6 +64,8 @@ export const MainPage = () => {
 
   useEffect(() => { }, []);
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <PageContainer topnav navbar>
       <MainPageContainer>
