@@ -25,7 +25,7 @@ export const MainPage = () => {
   return (
     <MainPageContainer>
       <div>메인페이지</div>
-      <div className="name">큐커톤</div>
+      <div className="name">큐커톤 5조</div>
     </MainPageContainer>
   );
 };
