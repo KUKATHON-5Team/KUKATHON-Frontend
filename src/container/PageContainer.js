@@ -22,7 +22,7 @@ const PageContainerBox = styled.div`
   height: calc(var(--vh, 1vh) * 100);
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid #7660d6;
   border-top: none;
   box-sizing: border-box;
 `;

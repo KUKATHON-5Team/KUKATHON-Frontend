@@ -13,7 +13,7 @@ import parking from "../assets/img/parking.png";
 import Union from "../assets/img/Union.png";
 import labor from "../assets/img/labor.png";
 import RegionModal from "../components/RegionModal";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -44,13 +44,12 @@ export const MainPage = () => {
   const [active, setActive] = useState(false);
   const onApp = () => {
     setActive(!active);
-  }
+  };
 
   const handleJobClick = (id) => {
     if (id === "TOTAL") {
-      return
-    }
-    else {
+      return;
+    } else {
       setJobs({ ...jobs, job: [...jobs.job, id] });
     }
   };
@@ -65,8 +64,8 @@ export const MainPage = () => {
 
   const navigate = useNavigate();
   const handlePrint = () => {
-    navigate('/joblist', { state: { regions, jobs, homes, times } });
-  }
+    navigate("/joblist", { state: { regions, jobs, homes, times } });
+  };
 
   const getUserInfo = async () => {
     try {
@@ -108,7 +107,7 @@ export const MainPage = () => {
       });
   };
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   return (
     <PageContainer topnav>
@@ -173,34 +172,182 @@ export const MainPage = () => {
         </div>
 
         <div className="selectJob1">
-          <div className={active ? 'jobButton_on' : 'jobButton_off'} id="TOTAL" onClick={() => { handleJobClick("TOTAL"), onApp() }}><img src={total} />전체</div>
-          <div className={jobs.job.includes('CLEANER') ? 'jobButton_on' : 'jobButton_off'} id="CLEANER" onClick={() => handleJobClick("CLEANER")}><img src={clean} />청소</div>
-          <div className={jobs.job.includes('SECURITY') ? 'jobButton_on' : 'jobButton_off'} id="SECURITY" onClick={() => handleJobClick("SECURITY")}><img src={parking} />경비/주차</div>
-          <div className={jobs.job.includes('MEDICAL') ? 'jobButton_on' : 'jobButton_off'} id="MEDICAL" onClick={() => handleJobClick("MEDICAL")}><img src={care} />돌봄/의료</div>
+          <div
+            className={active ? "jobButton_on" : "jobButton_off"}
+            id="TOTAL"
+            onClick={() => {
+              handleJobClick("TOTAL"), onApp();
+            }}
+          >
+            <img src={total} />
+            전체
+          </div>
+          <div
+            className={
+              jobs.job.includes("CLEANER") ? "jobButton_on" : "jobButton_off"
+            }
+            id="CLEANER"
+            onClick={() => handleJobClick("CLEANER")}
+          >
+            <img src={clean} />
+            청소
+          </div>
+          <div
+            className={
+              jobs.job.includes("SECURITY") ? "jobButton_on" : "jobButton_off"
+            }
+            id="SECURITY"
+            onClick={() => handleJobClick("SECURITY")}
+          >
+            <img src={parking} />
+            경비/주차
+          </div>
+          <div
+            className={
+              jobs.job.includes("MEDICAL") ? "jobButton_on" : "jobButton_off"
+            }
+            id="MEDICAL"
+            onClick={() => handleJobClick("MEDICAL")}
+          >
+            <img src={care} />
+            돌봄/의료
+          </div>
         </div>
         <div className="selectJob2">
-          <div className={jobs.job.includes('MART') ? 'jobButton_on' : 'jobButton_off'} id="MART" onClick={() => handleJobClick("MART")}><img src={mart} />마트/편의점</div>
-          <div className={jobs.job.includes('SIMPLEWORK') ? 'jobButton_on' : 'jobButton_off'} id="SIMPLEWORK" onClick={() => handleJobClick("SIMPLEWORK")}><img src={labor} />단순노동</div>
-          <div className={jobs.job.includes('MAKER') ? 'jobButton_on' : 'jobButton_off'} id="MAKER" onClick={() => handleJobClick("MAKER")}><img src={Union} />소일거리</div>
-          <div className={jobs.job.includes('ETC') ? 'jobButton_on' : 'jobButton_off'} id="ETC" onClick={() => handleJobClick("ETC")}><img src={elses} />기타</div>
+          <div
+            className={
+              jobs.job.includes("MART") ? "jobButton_on" : "jobButton_off"
+            }
+            id="MART"
+            onClick={() => handleJobClick("MART")}
+          >
+            <img src={mart} />
+            마트/편의점
+          </div>
+          <div
+            className={
+              jobs.job.includes("SIMPLEWORK") ? "jobButton_on" : "jobButton_off"
+            }
+            id="SIMPLEWORK"
+            onClick={() => handleJobClick("SIMPLEWORK")}
+          >
+            <img src={labor} />
+            단순노동
+          </div>
+          <div
+            className={
+              jobs.job.includes("MAKER") ? "jobButton_on" : "jobButton_off"
+            }
+            id="MAKER"
+            onClick={() => handleJobClick("MAKER")}
+          >
+            <img src={Union} />
+            소일거리
+          </div>
+          <div
+            className={
+              jobs.job.includes("ETC") ? "jobButton_on" : "jobButton_off"
+            }
+            id="ETC"
+            onClick={() => handleJobClick("ETC")}
+          >
+            <img src={elses} />
+            기타
+          </div>
         </div>
         <div className="border"></div>
         <div className="homeWork">
           <div className="homeWorkTitle">재택 가능 여부</div>
           <div className="homeWorkSelect">
-            <div className={homes.home.includes("yes") ? 'workcheck_on' : 'workcheck_off'} id="yes" onClick={() => handleHomeClick("yes")}>O</div>
-            <div className={homes.home.includes("no") ? 'workcheck_on' : 'workcheck_off'} id="no" onClick={() => handleHomeClick("no")}>X</div>
+            <div
+              className={
+                homes.home.includes("yes") ? "workcheck_on" : "workcheck_off"
+              }
+              id="yes"
+              onClick={() => handleHomeClick("yes")}
+            >
+              O
+            </div>
+            <div
+              className={
+                homes.home.includes("no") ? "workcheck_on" : "workcheck_off"
+              }
+              id="no"
+              onClick={() => handleHomeClick("no")}
+            >
+              X
+            </div>
           </div>
         </div>
         <div className="workTime">
           <div className="timeTitle">기간</div>
           <div className="timeSelect">
-            <div className={times.time.includes('MORETHAN1WEEK') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN1WEEK" onClick={() => handleTimeClick("MORETHAN1WEEK")}>1주 이상</div>
-            <div className={times.time.includes('MORETHAN1MONTH') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN1MONTH" onClick={() => handleTimeClick("MORETHAN1MONTH")}>1달 이상</div>
-            <div className={times.time.includes('MORETHAN3MONTH') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN3MONTH" onClick={() => handleTimeClick("MORETHAN3MONTH")}>3달 이상</div>
-            <div className={times.time.includes('MORETHAN6MONTH') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN6MONTH" onClick={() => handleTimeClick("MORETHAN6MONTH")}>6달 이상</div>
-            <div className={times.time.includes('MORETHAN1YEAR') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN1YEAR" onClick={() => handleTimeClick("MORETHAN1YEAR")}>1년 이상</div>
-            <div className={times.time.includes('MORETHAN3YEAR') ? 'timeCheck_on' : 'timeCheck_off'} id="MORETHAN3YEAR" onClick={() => handleTimeClick("MORETHAN3YEAR")}>3년 이상</div>
+            <div
+              className={
+                times.time.includes("MORETHAN1WEEK")
+                  ? "timeCheck_on"
+                  : "timeCheck_off"
+              }
+              id="MORETHAN1WEEK"
+              onClick={() => handleTimeClick("MORETHAN1WEEK")}
+            >
+              1주 이상
+            </div>
+            <div
+              className={
+                times.time.includes("MORETHAN1MONTH")
+                  ? "timeCheck_on"
+                  : "timeCheck_off"
+              }
+              id="MORETHAN1MONTH"
+              onClick={() => handleTimeClick("MORETHAN1MONTH")}
+            >
+              1달 이상
+            </div>
+            <div
+              className={
+                times.time.includes("MORETHAN3MONTH")
+                  ? "timeCheck_on"
+                  : "timeCheck_off"
+              }
+              id="MORETHAN3MONTH"
+              onClick={() => handleTimeClick("MORETHAN3MONTH")}
+            >
+              3달 이상
+            </div>
+            <div
+              className={
+                times.time.includes("MORETHAN6MONTH")
+                  ? "timeCheck_on"
+                  : "timeCheck_off"
+              }
+              id="MORETHAN6MONTH"
+              onClick={() => handleTimeClick("MORETHAN6MONTH")}
+            >
+              6달 이상
+            </div>
+            <div
+              className={
+                times.time.includes("MORETHAN1YEAR")
+                  ? "timeCheck_on"
+                  : "timeCheck_off"
+              }
+              id="MORETHAN1YEAR"
+              onClick={() => handleTimeClick("MORETHAN1YEAR")}
+            >
+              1년 이상
+            </div>
+            <div
+              className={
+                times.time.includes("MORETHAN3YEAR")
+                  ? "timeCheck_on"
+                  : "timeCheck_off"
+              }
+              id="MORETHAN3YEAR"
+              onClick={() => handleTimeClick("MORETHAN3YEAR")}
+            >
+              3년 이상
+            </div>
           </div>
         </div>
         <div className="selectButton">
@@ -251,8 +398,9 @@ const MainPageContainer = styled.div`
     border: 1px solid lightgray;
     width: 100%;
     text-align: center;
-    padding-top: 10px;
     color: gray;
+    height: 50px;
+    line-height: 50px;
   }
   div.selectJob1 {
     display: flex;
@@ -263,48 +411,50 @@ const MainPageContainer = styled.div`
   }
   div.selectJob2 {
     display: flex;
-    margin-top: 20px;
+    margin-top: 22px;
     width: 100%;
     height: 75px;
     justify-content: space-around;
   }
 
-  div.jobButton_off { 
-    border : 1px solid lightgray;
-    width : 18%;
-    font-size : 12px;
-    text-align : center;
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-
+  div.jobButton_off {
+    border: 2px solid lightgray;
+    width: 18%;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #1b1b1b;
     img {
-      width: 25px;
+      width: 22px;
       height: 15px;
-      margin-left: 25px;
       margin-bottom: 10px;
+      object-fit: contain;
     }
   }
-  div.jobButton_on { 
-    border : 4px solid #9B4CE0;
-    width : 18%;
-    font-size : 12px;
-    text-align : center;
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-
-    img { 
-      width : 25px; 
-      height : 15px;
-      margin-left : 25px;
-      margin-bottom : 10px;
+  div.jobButton_on {
+    border: 2px solid #9b4ce0;
+    width: 18%;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #1b1b1b;
+    img {
+      width: 22px;
+      height: 15px;
+      margin-bottom: 10px;
+      object-fit: contain;
     }
   }
-  div.border { 
+  div.border {
     width: 100%;
     height: 6px;
-    background-color: lightgray;
+    background-color: #d6d6d6;
     margin-top: 50px;
   }
   div.homeWork {
@@ -326,23 +476,23 @@ const MainPageContainer = styled.div`
     justify-content: space-around;
     align-items: center;
   }
-  div.workcheck_on { 
-    border : 4px solid #9B4CE0;
-    width : 100%;
-    height : 100%;
-    color : lightgray;
-    display : flex;
-    justify-content : center;
-    align-items : center;
+  div.workcheck_on {
+    border: 2px solid #9b4ce0;
+    width: 100%;
+    height: 100%;
+    color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  div.workcheck_off { 
-    border : 2px solid lightgray;
-    width : 100%;
-    height : 100%;
-    color : lightgray;
-    display : flex;
-    justify-content : center;
-    align-items : center;
+  div.workcheck_off {
+    border: 2px solid lightgray;
+    width: 100%;
+    height: 100%;
+    color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   div.workTime {
     display: flex;
@@ -364,28 +514,27 @@ const MainPageContainer = styled.div`
     flex-wrap: wrap;
     min-width: 270px;
   }
-  div.timeCheck_on { 
-    border : 4px solid #9B4CE0;
-    width : 64px;
-    text-align : center;
-    height : 100%;
-    color : gray;
-    font-size : 10px;
-    display : flex;
-    align-items : center;
-    justify-content : center;
+  div.timeCheck_on {
+    border: 2px solid #9b4ce0;
+    width: 64px;
+    text-align: center;
+    height: 100%;
+    color: gray;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  div.timeCheck_off { 
-    border : 2px solid lightgray;
-    width : 64px;
-    text-align : center;
-    height : 100%;
-    color : gray;
-    font-size : 10px;
-    display : flex;
-    align-items : center;
-    justify-content : center;
-
+  div.timeCheck_off {
+    border: 2px solid lightgray;
+    width: 64px;
+    text-align: center;
+    height: 100%;
+    color: gray;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   div.selectButton {
     margin-top: 80px;
