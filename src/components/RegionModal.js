@@ -2,44 +2,124 @@ import styled from "styled-components";
 import { HiSearch } from "react-icons/hi";
 import { useState, useEffect } from "react";
 
-export const RegionModal = ({ isOpen, setIsOpen }) => {
-  const [regions, setRegions] = useState([]);
-
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
+const RegionModal = ({
+  size,
+  regionmodals,
+  isOpen,
+  setIsOpen,
+  bigger,
+  regions,
+  setRegions,
+}) => {
+  const regioninfo = {
+    big: ["서울특별시", "경기도", "인천광역시"],
+    middle: {
+      서울특별시: ["강남구", "강동구", "강북구"],
+      경기도: ["가평군", "과천시", "광명시"],
+      인천광역시: ["강화군", "계양구", "남동구"],
+    },
+    small: {
+      강남구: ["개포동", "개포1동", "개포4동", "논현동"],
+      강동구: ["강일동", "고덕동", "고덕1동", "고덕2동"],
+      강북구: ["미동", "번동", "번1동", "번2동"],
+      가평군: ["가평읍", "북면", "상면", "설악면"],
+      과천시: ["갈현동", "과천동", "곽문동", "막계동"],
+      광명시: ["가학동", "광명동", "광명1동", "광명2동"],
+      강화군: ["강화읍", "교동면", "길상면", "내가면"],
+      계양구: ["다남동", "계산동", "계산1동", "계산2동"],
+      남동구: ["간석동", "간석1동", "간석2동", "간석3동"],
+    },
   };
 
-  useEffect(() => {
-    setRegions([
-      "서울",
-      "경기도",
-      "인천광역시",
-      "부산",
-      "대구",
-      "광주",
-      "제주",
-    ]);
-  }, []);
+  const [current, setCurrent] = useState({
+    big: "",
+    middle: "",
+    small: "",
+  });
+
+  const openModalHandler = (size) => {
+    setIsOpen({ ...regionmodals, [size]: !isOpen });
+  };
+
+  const handleClickRegionBox = (size, region) => {
+    setCurrent({ ...current, [size]: region });
+  };
+
+  const handleClickSetBtn = (size, region) => {
+    setRegions({ ...regions, [size]: region });
+    openModalHandler(size);
+  };
 
   return (
     <RegionModalContainer>
       {isOpen ? (
-        <ModalBackdrop onClick={openModalHandler}>
+        <ModalBackdrop
+          onClick={() => {
+            openModalHandler(size);
+          }}
+        >
           <RegionModalView onClick={(e) => e.stopPropagation()}>
             <SearchbarContainer>
               <input type="text" placeholder="지역을 입력하세요." />
               <HiSearch />
             </SearchbarContainer>
             <RegionBox>
-              {regions?.map((el, idx) => {
-                return (
-                  <div key={idx} className="region">
-                    {el}
-                  </div>
-                );
-              })}
+              {size === "big"
+                ? regioninfo.big?.map((el, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className="region"
+                        id={current.big === el ? "current" : null}
+                        onClick={() => {
+                          handleClickRegionBox("big", el);
+                        }}
+                      >
+                        {el}
+                      </div>
+                    );
+                  })
+                : null}
+              {size === "middle"
+                ? regioninfo.middle[bigger]?.map((el, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className="region"
+                        id={current.middle === el ? "current" : null}
+                        onClick={() => {
+                          handleClickRegionBox("middle", el);
+                        }}
+                      >
+                        {el}
+                      </div>
+                    );
+                  })
+                : null}
+              {size === "small"
+                ? regioninfo.small[bigger]?.map((el, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className="region"
+                        id={current.small === el ? "current" : null}
+                        onClick={() => {
+                          handleClickRegionBox("small", el);
+                        }}
+                      >
+                        {el}
+                      </div>
+                    );
+                  })
+                : null}
             </RegionBox>
-            <SetButton>완료</SetButton>
+            <SetButton
+              onClick={() => {
+                handleClickSetBtn(size, current[size]);
+              }}
+            >
+              완료
+            </SetButton>
           </RegionModalView>
         </ModalBackdrop>
       ) : null}
@@ -113,6 +193,12 @@ const RegionBox = styled.div`
     color: #797979;
     font-size: 12px;
     padding: 0 12px;
+    &:hover {
+      color: #7660d6;
+    }
+    &#current {
+      color: #7660d6;
+    }
   }
 `;
 
@@ -130,3 +216,5 @@ const SetButton = styled.button`
     cursor: pointer;
   }
 `;
+
+export default RegionModal;
