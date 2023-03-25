@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "../api/axios";
+import formAxios from "../api/formAxios";
 import { PageContainer } from "../container/PageContainer";
+import { Cookies } from "react-cookie";
+import { RegionModal } from "../components/RegionModal";
+
+const cookies = new Cookies();
+
+const setCookie = (name, value, option) => {
+  return cookies.set(name, value, { ...option });
+};
 
 export const MainPage = () => {
   const [user, setUser] = useState({});
@@ -11,6 +20,7 @@ export const MainPage = () => {
       const response = await axios.get("/test");
       const data = response.data;
       setUser(data);
+      console.log(data);
     } catch (error) {
       console.error("ERROR: ", error);
     }
@@ -27,14 +37,54 @@ export const MainPage = () => {
       .catch((err) => console.error("ERROR: ", err));
   };
 
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  const login = () => {
+    formAxios
+      .post("/login", {
+        username: "test",
+        password: "test",
+      })
+      .then((res) => {
+        console.log("로그인", res.headers[""]);
+        setCookie("JSESSIONID", "B63CE861F599E85A2FCD69A32FDD8E42", {
+          secure: true,
+          sameSite: "none",
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+      });
+  };
+
+  useEffect(() => {}, []);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <PageContainer navbar>
+    <PageContainer topnav>
       <MainPageContainer>
         <div className="test">내일(naeil) 메인페이지</div>
+        <button
+          onClick={() => {
+            login();
+          }}
+        >
+          로그인
+        </button>
+        <button
+          onClick={() => {
+            getUserInfo();
+          }}
+        >
+          test request
+        </button>
+        <button
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          지역 모달
+        </button>
+        <RegionModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </MainPageContainer>
     </PageContainer>
   );

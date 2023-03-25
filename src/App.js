@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./assets/styles/Globalstyle";
 import theme from "./assets/styles/theme";
 import { MainPage } from "./pages/MainPage";
+import { LogIn } from "./pages/LogIn";
 import { useEffect } from "react";
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <GlobalStyle />
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/" element={<MainPage />} />
+            <Route path="/" element={<LogIn />} />
+            <Route path="/main" element={<MainPage />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

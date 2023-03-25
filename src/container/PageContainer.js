@@ -1,17 +1,20 @@
 import styled from "styled-components";
+import { TopNav } from "../components/TopNav";
 import { Navbar } from "../components/Navbar";
 
-export const PageContainer = ({ children, navbar }) => {
+export const PageContainer = ({ children, topnav, navbar }) => {
   return (
     <PageContainerBox>
+      {topnav ? <TopNav /> : null}
       {children}
-      {navbar === false ? null : <Navbar />}
+      {navbar ? <Navbar /> : null}
     </PageContainerBox>
   );
 };
 
 const PageContainerBox = styled.div`
   width: 100vw;
+  min-width: 360px;
   max-width: 420px;
   justify-content: center;
   height: calc(var(--vh, 1vh) * 100);
