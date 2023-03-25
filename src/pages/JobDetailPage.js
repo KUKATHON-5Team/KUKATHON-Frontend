@@ -98,8 +98,8 @@ export const JobDetailPage = () => {
               </div>
             </div>
             <div className="timebox">
-              <div className="type">근무 기간</div>
-              <div className="value">{job.workPeriodType}</div>
+              <div className="type">거동 범위</div>
+              <div className="value">중</div>
             </div>
           </div>
         </DetailTime>
