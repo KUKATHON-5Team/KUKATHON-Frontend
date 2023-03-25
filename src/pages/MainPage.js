@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import formAxios from "../api/formAxios";
 import { PageContainer } from "../container/PageContainer";
 import { Cookies } from "react-cookie";
+import { RegionModal } from "../components/RegionModal";
 
 const cookies = new Cookies();
 
@@ -56,6 +57,8 @@ export const MainPage = () => {
 
   useEffect(() => {}, []);
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <PageContainer topnav>
       <MainPageContainer>
@@ -74,6 +77,14 @@ export const MainPage = () => {
         >
           test request
         </button>
+        <button
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          지역 모달
+        </button>
+        <RegionModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </MainPageContainer>
     </PageContainer>
   );
