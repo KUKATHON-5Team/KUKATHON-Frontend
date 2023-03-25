@@ -36,6 +36,31 @@ export const MainPage = () => {
     setRegionmodals({ ...regionmodals, [size]: !regionmodals.size });
   };
 
+  const [datas, setDatas] = useState({ job: [], home: [], time: [] });
+  const [isActive, setIsActive] = useState("");
+
+  const onAdd = (e) => {
+    setIsActive((prev) => {
+      return e.target.id;
+    });
+  };
+
+  const handleJobClick = (id) => {
+    setDatas({ ...datas, job: [...datas.job, id] });
+  };
+
+  const handleHomeClick = (id) => {
+    setDatas({ ...datas, home: [...datas.home, id] });
+  };
+
+  const handleTimeClick = (id) => {
+    setDatas({ ...datas, time: [...datas.time, id] });
+  };
+
+  const handlePrint = () => {
+    console.log(datas);
+  }
+
   const getUserInfo = async () => {
     try {
       const response = await axios.get("/test");
@@ -78,7 +103,7 @@ export const MainPage = () => {
 
   useEffect(() => {}, []);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const jobs = [{ name: '전체', id: 'total', img: 'total' }]
 
   return (
     <PageContainer topnav>
@@ -141,63 +166,40 @@ export const MainPage = () => {
             {regions.small ? regions.small : "맞춤지역"}
           </div>
         </div>
+
         <div className="selectJob1">
-          <div className="jobButton">
-            <img src={total} />
-            전체
-          </div>
-          <div className="jobButton">
-            <img src={clean} />
-            청소
-          </div>
-          <div className="jobButton">
-            <img src={parking} />
-            경비/주차
-          </div>
-          <div className="jobButton">
-            <img src={care} />
-            돌봄/의료
-          </div>
+          <div className={datas.job.includes('total') ? 'jobButton_on' : 'jobButton_off'} id="total" onClick={() => handleJobClick("total")}><img src={total} />전체</div>
+          <div className={datas.job.includes('clean') ? 'jobButton_on' : 'jobButton_off'} id="clean" onClick={() => handleJobClick("clean")}><img src={clean} />청소</div>
+          <div className={datas.job.includes('parking') ? 'jobButton_on' : 'jobButton_off'} id="parking" onClick={() => handleJobClick("parking")}><img src={parking} />경비/주차</div>
+          <div className={datas.job.includes('care') ? 'jobButton_on' : 'jobButton_off'} id="care" onClick={() => handleJobClick("care")}><img src={care} />돌봄/의료</div>
         </div>
         <div className="selectJob2">
-          <div className="jobButton">
-            <img src={mart} />
-            마트/편의점
-          </div>
-          <div className="jobButton">
-            <img src={labor} />
-            단순노동
-          </div>
-          <div className="jobButton">
-            <img src={Union} />
-            소일거리
-          </div>
-          <div className="jobButton">
-            <img src={elses} />
-            기타
-          </div>
+          <div className={datas.job.includes('mart') ? 'jobButton_on' : 'jobButton_off'} id="mart" onClick={() => handleJobClick("mart")}><img src={mart} />마트/편의점</div>
+          <div className={datas.job.includes('labor') ? 'jobButton_on' : 'jobButton_off'} id="labor" onClick={() => handleJobClick("labor")}><img src={labor} />단순노동</div>
+          <div className={datas.job.includes('Union') ? 'jobButton_on' : 'jobButton_off'} id="Union" onClick={() => handleJobClick("Union")}><img src={Union} />소일거리</div>
+          <div className={datas.job.includes('elses') ? 'jobButton_on' : 'jobButton_off'} id="elses" onClick={() => handleJobClick("elses")}><img src={elses} />기타</div>
         </div>
         <div className="border"></div>
         <div className="homeWork">
           <div className="homeWorkTitle">재택 가능 여부</div>
           <div className="homeWorkSelect">
-            <div className="workcheck">O</div>
-            <div className="workcheck">X</div>
+            <div className={datas.home.includes('yes') ? 'workcheck_on' : 'workcheck_off'} id="yes" onClick={() => handleHomeClick("yes")}>O</div>
+            <div className={datas.home.includes('no') ? 'workcheck_on' : 'workcheck_off'} id="no" onClick={() => handleHomeClick("no")}>X</div>
           </div>
         </div>
         <div className="workTime">
           <div className="timeTitle">기간</div>
           <div className="timeSelect">
-            <div className="timeCheck">1개월 이상</div>
-            <div className="timeCheck">3개월 이상</div>
-            <div className="timeCheck">6개월 이상</div>
-            <div className="timeCheck">1년 이상</div>
-            <div className="timeCheck">3년 이상</div>
-            <div className="timeCheck">협의</div>
+            <div className={datas.time.includes('oneMonthOver') ? 'timeCheck_on' : 'timeCheck_off'} id="oneMonthOver" onClick={() => handleTimeClick("oneMonthOver")}>1개월 이상</div>
+            <div className={datas.time.includes('threeMonthOver') ? 'timeCheck_on' : 'timeCheck_off'} id="threeMonthOver" onClick={() => handleTimeClick("threeMonthOver")}>3개월 이상</div>
+            <div className={datas.time.includes('sixMonthOver') ? 'timeCheck_on' : 'timeCheck_off'} id="sixMonthOver" onClick={() => handleTimeClick("sixMonthOver")}>6개월 이상</div>
+            <div className={datas.time.includes('oneYearOver') ? 'timeCheck_on' : 'timeCheck_off'} id="oneYearOver" onClick={() => handleTimeClick("maroneYearOvert")}>1년 이상</div>
+            <div className={datas.time.includes('threeYearOver') ? 'timeCheck_on' : 'timeCheck_off'} id="threeYearOver" onClick={() => handleTimeClick("threeYearOver")}>3년 이상</div>
+            <div className={datas.time.includes('discuss') ? 'timeCheck_on' : 'timeCheck_off'} id="discuss" onClick={() => handleTimeClick("discuss")}>협의</div>
           </div>
         </div>
         <div className="selectButton">
-          <button>조회하기</button>
+          <button onClick={handlePrint}>조회하기</button>
         </div>
       </MainPageContainer>
     </PageContainer>
@@ -261,14 +263,15 @@ const MainPageContainer = styled.div`
     height: 75px;
     justify-content: space-around;
   }
-  div.jobButton {
-    border: 1px solid lightgray;
-    width: 18%;
-    font-size: 12px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+
+  div.jobButton_off { 
+    border : 1px solid lightgray;
+    width : 18%;
+    font-size : 12px;
+    text-align : center;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
 
     img {
       width: 25px;
@@ -277,7 +280,23 @@ const MainPageContainer = styled.div`
       margin-bottom: 10px;
     }
   }
-  div.border {
+  div.jobButton_on { 
+    border : 4px solid #9B4CE0;
+    width : 18%;
+    font-size : 12px;
+    text-align : center;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+
+    img { 
+      width : 25px; 
+      height : 15px;
+      margin-left : 25px;
+      margin-bottom : 10px;
+    }
+  }
+  div.border { 
     width: 100%;
     height: 6px;
     background-color: lightgray;
@@ -302,14 +321,23 @@ const MainPageContainer = styled.div`
     justify-content: space-around;
     align-items: center;
   }
-  div.workcheck {
-    border: 2px solid lightgray;
-    width: 100%;
-    height: 100%;
-    color: lightgray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  div.workcheck_on { 
+    border : 4px solid #9B4CE0;
+    width : 100%;
+    height : 100%;
+    color : lightgray;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+  }
+  div.workcheck_off { 
+    border : 2px solid lightgray;
+    width : 100%;
+    height : 100%;
+    color : lightgray;
+    display : flex;
+    justify-content : center;
+    align-items : center;
   }
   div.workTime {
     display: flex;
@@ -331,16 +359,28 @@ const MainPageContainer = styled.div`
     flex-wrap: wrap;
     min-width: 270px;
   }
-  div.timeCheck {
-    border: 2px solid lightgray;
-    width: 64px;
-    text-align: center;
-    height: 100%;
-    color: gray;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  div.timeCheck_on { 
+    border : 4px solid #9B4CE0;
+    width : 64px;
+    text-align : center;
+    height : 100%;
+    color : gray;
+    font-size : 10px;
+    display : flex;
+    align-items : center;
+    justify-content : center;
+  }
+  div.timeCheck_off { 
+    border : 2px solid lightgray;
+    width : 64px;
+    text-align : center;
+    height : 100%;
+    color : gray;
+    font-size : 10px;
+    display : flex;
+    align-items : center;
+    justify-content : center;
+
   }
   div.selectButton {
     margin-top: 80px;
