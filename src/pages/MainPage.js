@@ -81,7 +81,7 @@ export const MainPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <PageContainer topnav navbar>
+    <PageContainer topnav>
       <MainPageContainer>
         <div className="slogan">
           <div className="main">내일을 같이하며, 내 일을 가치있게!</div>
