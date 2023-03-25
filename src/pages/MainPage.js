@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "../api/axios";
+import { PageContainer } from "../container/PageContainer";
 
 export const MainPage = () => {
   const getUserInfo = async () => {
@@ -23,10 +24,12 @@ export const MainPage = () => {
   };
 
   return (
-    <MainPageContainer>
-      <div>메인페이지</div>
-      <div className="name">큐커톤 5조</div>
-    </MainPageContainer>
+    <PageContainer>
+      <MainPageContainer>
+        <div>메인페이지</div>
+        <div className="name">큐커톤</div>
+      </MainPageContainer>
+    </PageContainer>
   );
 };
 
