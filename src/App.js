@@ -5,6 +5,7 @@ import theme from "./assets/styles/theme";
 import { MainPage } from "./pages/MainPage";
 import { LogIn } from "./pages/LogIn";
 import { JobPage } from "./pages/JobPage";
+import { JobListPage } from "./pages/JobListPage";
 import { useEffect } from "react";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<LogIn />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/job" element={<JobPage />} />
+            <Route path="/joblist" element={<JobListPage />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
